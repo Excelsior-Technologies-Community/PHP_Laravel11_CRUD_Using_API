@@ -1,66 +1,121 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+🎯 Project: laravel11-api-crud
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+✅ Overview
 
-## About Laravel
+This project demonstrates a Products API CRUD using Laravel 11, providing endpoints to:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Create Product → /api/products/add
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+List All Products → /api/products
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Get Single Product → /api/products/{id}
 
-## Learning Laravel
+Edit Product → /api/products/edit/{id}
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Update Product → /api/products/update/{id}
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Soft Delete Product → /api/products/delete/{id}
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Features:
 
-## Laravel Sponsors
+Laravel 11 new routing structure (bootstrap/app.php)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Soft deletes using Eloquent
 
-### Premium Partners
+JSON responses for all endpoints
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Validation for name, status, and optional detail
 
-## Contributing
+🛠️ Project Setup & Configuration
+🔧 Step 1: Create a New Laravel 11 Project
+composer create-project laravel/laravel:^11.0 laravel11-api-crud
+cd laravel11-api-crud
+cp .env.example .env
+php artisan key:generate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+🗄 Step 2: Configure Database
 
-## Code of Conduct
+Open .env and update:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel11_api
+DB_USERNAME=root
+DB_PASSWORD=
 
-## Security Vulnerabilities
+# Charset & Collation for emojis / unicode
+DB_CHARSET=utf8mb4
+DB_COLLATION=utf8mb4_unicode_ci
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+Then create the database laravel11_api in MySQL.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+🧱 Step 3: Run Migrations
+php artisan migrate
+
+🧾 Step 4: Create Model
+php artisan make:model Product -m
+
+
+(Add fields: name, detail, status, created_by, updated_by, timestamps, soft deletes.)
+
+🧱 Step 5: Create API Controller
+php artisan make:controller Api/ProductApiController
+
+
+This controller will handle all API CRUD operations.
+
+🛣 Step 6: Define API Routes
+
+File: routes/api.php
+Endpoints: /products, /products/{id}, /products/add, /products/edit/{id}, /products/update/{id}, /products/delete/{id}
+
+🧪 Step 7: Start Server
+php artisan serve
+
+
+Open in browser or Postman: http://localhost:8000
+
+🧑‍💻 Application Code Structure
+app/
+  └── Models/
+       └── Product.php               # Product model
+  └── Http/
+       └── Controllers/
+            └── Api/
+                 └── ProductApiController.php  # API CRUD controller
+database/
+  └── migrations/
+       └── create_products_table.php          # Products table migration
+routes/
+  └── api.php                                 # API routes
+bootstrap/
+  └── app.php                                 # Laravel 11 routing config
+.env                                           # Environment configuration
+
+📌 8. API Endpoints Overview
+Action	Endpoint
+Get All Products	/api/products
+Get Single	/api/products/{id}
+Add Product	/api/products/add
+Edit Product	/api/products/edit/{id}
+Update Product	/api/products/update/{id}
+Soft Delete	/api/products/delete/{id}
+
+All responses are returned in JSON format.
+
+🧪 9. API Testing (Postman)
+
+Get All Products → GET /api/products
+
+Get Single Product → GET /api/products/{id}
+
+Add Product → POST /api/products/add (JSON body: name, detail, status, created_by)
+
+Update Product → POST /api/products/update/{id} (JSON body: name, detail, status, updated_by)
+
+Soft Delete Product → POST /api/products/delete/{id}
+
+🎉 Project Complete
+Your laravel11-api-crud project is fully ready with API endpoints, database integration, soft deletes, and Postman testing.

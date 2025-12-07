@@ -838,5 +838,5 @@ json
     "deleted_at": null
   }
 ]
-
+```
 🎉 Your Laravel 11 API CRUD documentation is now fully ready with proper structure, comments, bootstrap/app.php integration, Postman testing, and example JSON responses.

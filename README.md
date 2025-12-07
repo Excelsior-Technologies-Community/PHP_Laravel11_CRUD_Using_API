@@ -1,121 +1,282 @@
-🎯 Project: laravel11-api-crud
+# 🚀 Laravel 11 – Products API CRUD (Full Documentation)
 
-✅ Overview
+## 📌 1. Project Overview
 
-This project demonstrates a Products API CRUD using Laravel 11, providing endpoints to:
+### API Endpoints:
 
-Create Product → /api/products/add
+- Create Product → `/api/products/add`
+- List All Products → `/api/products`
+- Get Single Product → `/api/products/{id}`
+- Edit Product → `/api/products/edit/{id}`
+- Update Product → `/api/products/update/{id}`
+- Soft Delete Product → `/api/products/delete/{id}`
 
-List All Products → /api/products
+### Features:
 
-Get Single Product → /api/products/{id}
+- Laravel 11 new routing structure (`bootstrap/app.php`)
+- Soft deletes using Eloquent
+- JSON responses for all endpoints
+- Validation for name, status, and optional detail
 
-Edit Product → /api/products/edit/{id}
+---
 
-Update Product → /api/products/update/{id}
+## 📌 2. Installation Commands
+# Create Laravel 11 project
+```bash
 
-Soft Delete Product → /api/products/delete/{id}
-
-Features:
-
-Laravel 11 new routing structure (bootstrap/app.php)
-
-Soft deletes using Eloquent
-
-JSON responses for all endpoints
-
-Validation for name, status, and optional detail
-
-🛠️ Project Setup & Configuration
-🔧 Step 1: Create a New Laravel 11 Project
 composer create-project laravel/laravel:^11.0 laravel11-api-crud
+
 cd laravel11-api-crud
+
+# Copy environment file
 cp .env.example .env
+
+# Generate application key
 php artisan key:generate
+Update .env database settings:
 
-🗄 Step 2: Configure Database
-
-Open .env and update:
-
+env
+Copy code
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=laravel11_api
 DB_USERNAME=root
 DB_PASSWORD=
-
-# Charset & Collation for emojis / unicode
 DB_CHARSET=utf8mb4
 DB_COLLATION=utf8mb4_unicode_ci
+Run migrations:
 
-
-Then create the database laravel11_api in MySQL.
-
-🧱 Step 3: Run Migrations
+bash
+Copy code
 php artisan migrate
+Start server:
 
-🧾 Step 4: Create Model
-php artisan make:model Product -m
-
-
-(Add fields: name, detail, status, created_by, updated_by, timestamps, soft deletes.)
-
-🧱 Step 5: Create API Controller
-php artisan make:controller Api/ProductApiController
-
-
-This controller will handle all API CRUD operations.
-
-🛣 Step 6: Define API Routes
-
-File: routes/api.php
-Endpoints: /products, /products/{id}, /products/add, /products/edit/{id}, /products/update/{id}, /products/delete/{id}
-
-🧪 Step 7: Start Server
+bash
+Copy code
 php artisan serve
+📌 3. Folder Structure
+pgsql
+Copy code
+laravel11-api-crud/
+│
+├── app/
+│   ├── Models/
+│   │   └── Product.php
+│   └── Http/
+│       └── Controllers/
+│           └── Api/
+│               └── ProductApiController.php
+│
+├── bootstrap/
+│   └── app.php        ← Laravel 11 routing configuration
+│
+├── database/
+│   └── migrations/
+│       └── 2025_xx_xx_create_products_table.php
+│
+├── resources/
+│   └── views/
+│       └── products/
+│           ├── index.blade.php
+│           ├── create.blade.php
+│           ├── edit.blade.php
+│           └── show.blade.php
+│
+├── routes/
+│   ├── api.php
+│   ├── web.php
+│   └── console.php
+│
+└── .env
+📌 4. bootstrap/app.php (Laravel 11 Routing Configuration)
+php
+Copy code
+<?php
 
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
 
-Open in browser or Postman: http://localhost:8000
+/**
+ * Laravel 11 bootstrap file.
+ * This file initializes the application and sets up routing, middleware, and exception handling.
+ */
 
-🧑‍💻 Application Code Structure
-app/
-  └── Models/
-       └── Product.php               # Product model
-  └── Http/
-       └── Controllers/
-            └── Api/
-                 └── ProductApiController.php  # API CRUD controller
-database/
-  └── migrations/
-       └── create_products_table.php          # Products table migration
-routes/
-  └── api.php                                 # API routes
-bootstrap/
-  └── app.php                                 # Laravel 11 routing config
-.env                                           # Environment configuration
+return Application::configure(
+    basePath: dirname(__DIR__)
+)
+->withRouting(
+    web: __DIR__.'/../routes/web.php',
+    api: __DIR__.'/../routes/api.php',
+    commands: __DIR__.'/../routes/console.php',
+    health: '/up'
+)
+->withMiddleware(function (Middleware $middleware) {
+})
+->withExceptions(function (Exceptions $exceptions) {
+})
+->create();
+📌 5. Migration – Products Table
+php
+Copy code
+<?php
 
-📌 8. API Endpoints Overview
-Action	Endpoint
-Get All Products	/api/products
-Get Single	/api/products/{id}
-Add Product	/api/products/add
-Edit Product	/api/products/edit/{id}
-Update Product	/api/products/update/{id}
-Soft Delete	/api/products/delete/{id}
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-All responses are returned in JSON format.
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('detail')->nullable();
+            $table->enum('status', ['active','inactive'])->default('active');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
 
-🧪 9. API Testing (Postman)
+    public function down(): void
+    {
+        Schema::dropIfExists('products');
+    }
+};
+📌 6. Product Model
+php
+Copy code
+<?php
 
-Get All Products → GET /api/products
+namespace App\Models;
 
-Get Single Product → GET /api/products/{id}
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-Add Product → POST /api/products/add (JSON body: name, detail, status, created_by)
+class Product extends Model
+{
+    use HasFactory, SoftDeletes;
 
-Update Product → POST /api/products/update/{id} (JSON body: name, detail, status, updated_by)
+    protected $fillable = [
+        'name',
+        'detail',
+        'status',
+        'created_by',
+        'updated_by'
+    ];
 
-Soft Delete Product → POST /api/products/delete/{id}
+    protected $dates = ['deleted_at'];
+}
+📌 7. API Controller
+File: app/Http/Controllers/Api/ProductApiController.php
 
-🎉 Project Complete
-Your laravel11-api-crud project is fully ready with API endpoints, database integration, soft deletes, and Postman testing.
+(Code exactly same as provided by you)
+
+📌 8. API Routes
+php
+Copy code
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ProductApiController;
+
+// Get all products
+Route::get('products', [ProductApiController::class, 'getAllProducts'])->name('products.allLists');
+
+// Get single product
+Route::get('products/{id}', [ProductApiController::class, 'getProduct'])->name('products.list');
+
+// Create product
+Route::post('products/add', [ProductApiController::class, 'addProduct'])->name('products.add');
+
+// Edit product
+Route::get('products/edit/{id}', [ProductApiController::class, 'editProduct'])->name('products.edit');
+
+// Update product
+Route::post('products/update/{id}', [ProductApiController::class, 'updateProduct'])->name('products.update');
+
+// Soft delete product
+Route::post('products/delete/{id}', [ProductApiController::class, 'softDeleteProduct'])->name('products.delete');
+📌 9. Blade Views (Tailwind CSS)
+index.blade.php – List Products
+
+create.blade.php – Add Product
+
+edit.blade.php – Edit Product
+
+show.blade.php – Show Product Details
+
+✅ Code exactly same as provided
+
+📌 10. API Testing (Postman)
+1️⃣ Get All Products
+nginx
+Copy code
+GET http://127.0.0.1:8000/api/products
+2️⃣ Get Single Product
+ruby
+Copy code
+GET http://127.0.0.1:8000/api/products/1
+3️⃣ Add Product
+ruby
+Copy code
+POST http://127.0.0.1:8000/api/products/add
+json
+Copy code
+{
+  "name": "MacBook Pro",
+  "detail": "16-inch, M1 Max",
+  "status": "active",
+  "created_by": 1
+}
+4️⃣ Update Product
+nginx
+Copy code
+POST http://127.0.0.1:8000/api/products/update/1
+json
+Copy code
+{
+  "name": "MacBook Pro 2025",
+  "detail": "16-inch, M2 Max",
+  "status": "active",
+  "updated_by": 1
+}
+5️⃣ Soft Delete Product
+perl
+Copy code
+POST http://127.0.0.1:8000/api/products/delete/1
+📌 11. Example JSON Responses
+Add Product Response
+json
+Copy code
+{
+  "id": 1,
+  "name": "MacBook Pro",
+  "detail": "16-inch, M1 Max",
+  "status": "active",
+  "created_by": 1,
+  "updated_by": null,
+  "created_at": "2025-12-04T11:20:00.000000Z",
+  "updated_at": "2025-12-04T11:20:00.000000Z",
+  "deleted_at": null
+}
+Get All Products Response
+json
+Copy code
+[
+  {
+    "id": 1,
+    "name": "MacBook Pro",
+    "detail": "16-inch, M1 Max",
+    "status": "active",
+    "created_by": 1,
+    "updated_by": null,
+    "created_at": "2025-12-04T11:20:00.000000Z",
+    "updated_at": "2025-12-04T11:20:00.000000Z",
+    "deleted_at": null
+  }
+]

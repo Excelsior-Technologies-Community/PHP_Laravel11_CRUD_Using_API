@@ -1,4 +1,4 @@
-# 🚀 Laravel 11 – Products API CRUD (Full Documentation)
+# 🚀 PHP_Laravel11_CRUD_Using_API (Full Documentation)
 
 ## 📝 Introduction
 
@@ -33,9 +33,9 @@ All front-end views are built using **Blade templates** and **Tailwind CSS** for
 # Create Laravel 11 project
 ```bash
 
-composer create-project laravel/laravel:^11.0 laravel11-api-crud
+composer create-project laravel/laravel:^11.0 PHP_Laravel11_CRUD_Using_API
 
-cd laravel11-api-crud
+cd PHP_Laravel11_CRUD_Using_API
 ```
 
 # Copy environment file
@@ -839,4 +839,4 @@ json
   }
 ]
 ```
-🎉 Your Laravel 11 API CRUD documentation is now fully ready with proper structure, comments, bootstrap/app.php integration, Postman testing, and example JSON responses.
+🎉 Your PHP_Laravel12_CRUD_Using_API documentation is now fully ready with proper structure, comments, bootstrap/app.php integration, Postman testing, and example JSON responses.

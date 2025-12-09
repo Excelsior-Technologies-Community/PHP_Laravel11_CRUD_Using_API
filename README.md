@@ -74,7 +74,7 @@ php artisan serve
 ```
 📌 3. Folder Structure
 ```
-laravel11-api-crud/
+PHP_Laravel11_CRUD_Using_API/
 │
 ├── app/
 │   ├── Models/
@@ -839,4 +839,4 @@ json
   }
 ]
 ```
-🎉 Your PHP_Laravel12_CRUD_Using_API documentation is now fully ready with proper structure, comments, bootstrap/app.php integration, Postman testing, and example JSON responses.
+🎉 Your PHP_Laravel11_CRUD_Using_API documentation is now fully ready with proper structure, comments, bootstrap/app.php integration, Postman testing, and example JSON responses.

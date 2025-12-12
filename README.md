@@ -1,6 +1,6 @@
-# 🚀 PHP_Laravel11_CRUD_Using_API (Full Documentation)
+<img width="1375" height="987" alt="Screenshot 2025-12-12 125137" src="https://github.com/user-attachments/assets/309cc1d0-d424-44e6-8c29-af26dce01255" />#  PHP_Laravel11_CRUD_Using_API (Full Documentation)
 
-## 📝 Introduction
+## Introduction
 
 This project is a **Laravel 11 API CRUD application** for managing products.  
 It provides a RESTful API to **create, read, update, and soft delete products**.  
@@ -9,7 +9,7 @@ All front-end views are built using **Blade templates** and **Tailwind CSS** for
 
 ---    
 
-## 📌 1. Project Overview
+##  1. Project Overview
 
 ### API Endpoints:
 
@@ -29,7 +29,7 @@ All front-end views are built using **Blade templates** and **Tailwind CSS** for
 
 ---
 
-## 📌 2. Installation Commands
+##  2. Installation Commands
 # Create Laravel 11 project
 ```bash
 
@@ -72,7 +72,7 @@ Start server:
 php artisan serve
 
 ```
-📌 3. Folder Structure
+3. Folder Structure
 ```
 PHP_Laravel11_CRUD_Using_API/
 │
@@ -107,7 +107,7 @@ PHP_Laravel11_CRUD_Using_API/
 └── .env
 
 ```
-📌 4. bootstrap/app.php (Laravel 11 Routing Configuration)
+4. bootstrap/app.php (Laravel 11 Routing Configuration)
 ```
 
 <?php
@@ -137,7 +137,7 @@ return Application::configure(
 ->create();
 
 ```
-📌 5. Migration – Products Table
+5. Migration – Products Table
 
 # Create migration for products table
 
@@ -179,7 +179,7 @@ return new class extends Migration {
 php artisan migrate
 
 ```
-📌 6. Product Model
+6. Product Model
 
 # Create Product model
 ```
@@ -198,8 +198,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    // ✅ Allows factory usage for testing and seeding
-    // ✅ Enables soft delete functionality (deleted_at column)
+    //  Allows factory usage for testing and seeding
+    //  Enables soft delete functionality (deleted_at column)
     use HasFactory, SoftDeletes;
 
     /**
@@ -226,7 +226,7 @@ class Product extends Model
 }
 
 ```
-📌 7. API Controller
+7. API Controller
 
 # Create API controller
 ```
@@ -412,7 +412,7 @@ class ProductApiController extends Controller
 }
 
 ```
-📌 8. API Routes
+8. API Routes
 
 File: routes/api.php
 ```
@@ -440,7 +440,7 @@ Route::post('products/update/{id}', [ProductApiController::class, 'updateProduct
 Route::post('products/delete/{id}', [ProductApiController::class, 'softDeleteProduct'])->name('products.delete');
 
 ```
-📌 9. Blade Views (Tailwind CSS)
+9. Blade Views (Tailwind CSS)
 
 File: resources/views/products/
 
@@ -761,20 +761,20 @@ Displays full details: name, status, created_by, updated_by, timestamps
 </html>
 
 ```
-📌 10. API Testing (Postman)
+10. API Testing (Postman)
 
-1️⃣ Get All Products
+1️ Get All Products
 ```
 GET http://127.0.0.1:8000/api/products
 
 ```
-2️⃣ Get Single Product
+2️ Get Single Product
 ```
 
 GET http://127.0.0.1:8000/api/products/1
 
 ```
-3️⃣ Add Product
+3️ Add Product
 ```
 POST http://127.0.0.1:8000/api/products/add
 
@@ -787,7 +787,7 @@ json
 }
 
 ```
-4️⃣ Update Product
+4️ Update Product
 ```
 POST http://127.0.0.1:8000/api/products/update/1
 
@@ -800,13 +800,14 @@ json
 }
 
 ```
-5️⃣ Soft Delete Product
+5️ Soft Delete Product
 ```
 
 POST http://127.0.0.1:8000/api/products/delete/1
 
 ```
-📌 11. Example JSON Responses
+11. Example JSON Responses
+    
 Add Product Response
 
 ```
@@ -839,4 +840,42 @@ json
   }
 ]
 ```
-🎉 Your PHP_Laravel11_CRUD_Using_API documentation is now fully ready with proper structure, comments, bootstrap/app.php integration, Postman testing, and example JSON responses.
+## Output:
+
+### Get All Products
+
+```
+GET http://127.0.0.1:8000/api/products
+```
+<img width="1380" height="999" alt="Screenshot 2025-12-12 125402" src="https://github.com/user-attachments/assets/cd4389bb-83ce-4665-a5b6-33a326cc1918" />
+
+### Get Single Product
+
+```
+GET http://127.0.0.1:8000/api/products/5
+```
+<img width="1386" height="1005" alt="Screenshot 2025-12-12 125426" src="https://github.com/user-attachments/assets/71821843-8269-4bc3-aefe-dc2d2ea12d1c" />
+
+### Add Product
+```
+POST http://127.0.0.1:8000/api/products/add
+```
+<img width="1375" height="987" alt="Screenshot 2025-12-12 125137" src="https://github.com/user-attachments/assets/72a95d90-33bf-4400-aec6-604361d903f6" />
+
+### Update Product
+
+```
+POST http://127.0.0.1:8000/api/products/update/5
+```
+<img width="1383" height="1048" alt="Screenshot 2025-12-12 125306" src="https://github.com/user-attachments/assets/2f09beb4-8e2d-41f1-9fd9-a0b063936130" />
+
+### Soft Delete Product
+
+```
+POST http://127.0.0.1:8000/api/products/delete/5
+```
+<img width="1379" height="1001" alt="Screenshot 2025-12-12 125500" src="https://github.com/user-attachments/assets/6c55b736-663d-49eb-997d-9b3ac524661c" />
+
+
+
+Your PHP_Laravel11_CRUD_Using_API documentation is now fully ready with proper structure, comments, bootstrap/app.php integration, Postman testing, and example JSON responses.

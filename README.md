@@ -1,4 +1,4 @@
-<img width="1375" height="987" alt="Screenshot 2025-12-12 125137" src="https://github.com/user-attachments/assets/309cc1d0-d424-44e6-8c29-af26dce01255" />#  PHP_Laravel11_CRUD_Using_API (Full Documentation)
+#  PHP_Laravel11_CRUD_Using_API (Full Documentation)
 
 ## Introduction
 
@@ -877,5 +877,6 @@ POST http://127.0.0.1:8000/api/products/delete/5
 <img width="1379" height="1001" alt="Screenshot 2025-12-12 125500" src="https://github.com/user-attachments/assets/6c55b736-663d-49eb-997d-9b3ac524661c" />
 
 
+---
 
 Your PHP_Laravel11_CRUD_Using_API documentation is now fully ready with proper structure, comments, bootstrap/app.php integration, Postman testing, and example JSON responses.

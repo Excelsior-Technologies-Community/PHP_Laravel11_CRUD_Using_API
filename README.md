@@ -2,10 +2,13 @@
 
 ## Introduction
 
-This project is a **Laravel 11 API CRUD application** for managing products.  
-It provides a RESTful API to **create, read, update, and soft delete products**.  
-The application uses **Eloquent ORM**, **Soft Deletes**, and **JSON responses** for all API endpoints.  
-All front-end views are built using **Blade templates** and **Tailwind CSS** for styling.
+- This project is a **Laravel 11 API CRUD application** for managing products.  
+
+- It provides a RESTful API to **create, read, update, and soft delete products**.
+
+- The application uses **Eloquent ORM**, **Soft Deletes**, and **JSON responses** for all API endpoints. 
+
+- All front-end views are built using **Blade templates** and **Tailwind CSS** for styling.
 
 ---    
 

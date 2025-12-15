@@ -2,12 +2,12 @@
 
 ## Introduction
 
-- This project is a **Laravel 11 API CRUD application** for managing products.  
-
+- This project is a **Laravel 11 API CRUD application** for managing products.
+   
 - It provides a RESTful API to **create, read, update, and soft delete products**.
 
-- The application uses **Eloquent ORM**, **Soft Deletes**, and **JSON responses** for all API endpoints. 
-
+- The application uses **Eloquent ORM**, **Soft Deletes**, and **JSON responses** for all API endpoints.
+  
 - All front-end views are built using **Blade templates** and **Tailwind CSS** for styling.
 
 ---    
@@ -33,7 +33,8 @@
 ---
 
 ##  2. Installation Commands
-# Create Laravel 11 project
+
+ Create Laravel 11 project
 ```bash
 
 composer create-project laravel/laravel:^11.0 PHP_Laravel11_CRUD_Using_API
@@ -41,17 +42,17 @@ composer create-project laravel/laravel:^11.0 PHP_Laravel11_CRUD_Using_API
 cd PHP_Laravel11_CRUD_Using_API
 ```
 
-# Copy environment file
+ Copy environment file
 ```
 cp .env.example .env
 ```
-# Generate application key
+ Generate application key
 ```
 php artisan key:generate
 ```
 Update .env database settings:
 
-env
+.env
 ```
 
 DB_CONNECTION=mysql
@@ -75,7 +76,7 @@ Start server:
 php artisan serve
 
 ```
-3. Folder Structure
+## 3. Folder Structure
 ```
 PHP_Laravel11_CRUD_Using_API/
 │
@@ -110,7 +111,7 @@ PHP_Laravel11_CRUD_Using_API/
 └── .env
 
 ```
-4. bootstrap/app.php (Laravel 11 Routing Configuration)
+## 4. bootstrap/app.php (Laravel 11 Routing Configuration)
 ```
 
 <?php
@@ -140,9 +141,9 @@ return Application::configure(
 ->create();
 
 ```
-5. Migration – Products Table
+## 5. Migration – Products Table
 
-# Create migration for products table
+Create migration for products table
 
 ```
 php artisan make:migration create_products_table --create=products
@@ -182,9 +183,9 @@ return new class extends Migration {
 php artisan migrate
 
 ```
-6. Product Model
+## 6. Product Model
 
-# Create Product model
+ Create Product model
 ```
 php artisan make:model Product
 
@@ -229,9 +230,9 @@ class Product extends Model
 }
 
 ```
-7. API Controller
+## 7. API Controller
 
-# Create API controller
+Create API controller
 ```
 php artisan make:controller Api/ProductApiController
 ```
@@ -415,7 +416,7 @@ class ProductApiController extends Controller
 }
 
 ```
-8. API Routes
+## 8. API Routes
 
 File: routes/api.php
 ```
@@ -443,7 +444,7 @@ Route::post('products/update/{id}', [ProductApiController::class, 'updateProduct
 Route::post('products/delete/{id}', [ProductApiController::class, 'softDeleteProduct'])->name('products.delete');
 
 ```
-9. Blade Views (Tailwind CSS)
+## 9. Blade Views (Tailwind CSS)
 
 File: resources/views/products/
 
@@ -764,7 +765,7 @@ Displays full details: name, status, created_by, updated_by, timestamps
 </html>
 
 ```
-10. API Testing (Postman)
+## 10. API Testing (Postman)
 
 1️ Get All Products
 ```
@@ -809,7 +810,7 @@ json
 POST http://127.0.0.1:8000/api/products/delete/1
 
 ```
-11. Example JSON Responses
+## 11. Example JSON Responses
     
 Add Product Response
 

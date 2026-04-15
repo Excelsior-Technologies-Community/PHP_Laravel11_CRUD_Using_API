@@ -18,6 +18,8 @@ use Faker\Guesser\Name;
 // Get all products
 Route::get('products', [ProductApiController::class, 'getAllProducts'])->name('products.allLists');
 
+
+
 // Get single product by ID
 Route::get('products/{id}', [ProductApiController::class, 'getProduct'])->name('products.list');
 

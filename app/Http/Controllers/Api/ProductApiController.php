@@ -4,96 +4,115 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
+use Illuminate\Support\Facades\Validator;
 
 class ProductApiController extends Controller
 {
-    
-    public function getAllProducts()
+    // 1. Get all products with search/filter/pagination
+    public function getAllProducts(Request $request)
     {
-        $products = Product::all(); // Fetch all non-deleted products
-        return response()->json($products, 200);
+        try {
+            $query = Product::query();
+
+            // Search by name or detail
+            if ($request->has('search') && $request->search != '') {
+                $query->where(function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->search . '%')
+                        ->orWhere('detail', 'like', '%' . $request->search . '%');
+                });
+            }
+
+            // Filter by status
+            if ($request->has('status') && $request->status != '') {
+                $query->where('status', $request->status);
+            }
+
+            // Sort by created_at
+            if ($request->has('sort') && in_array($request->sort, ['asc', 'desc'])) {
+                $query->orderBy('created_at', $request->sort);
+            }
+
+            // Pagination
+            $products = $query->paginate(2);
+
+            return response()->json($products);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
+        }
     }
 
-    
+    // 2. Get single product
     public function getProduct($id)
     {
         $product = Product::find($id);
-
         if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
+            return response()->json(['error' => true, 'message' => 'Product not found'], 404);
         }
-
-        return response()->json($product, 200);
+        return response()->json($product);
     }
 
+    // 3. Add new product
     public function addProduct(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'detail' => 'nullable|string',
-            'status' => 'nullable|in:active,inactive'
+            'status' => 'required|string|max:50',
+            'created_by' => 'nullable|integer',
+            'updated_by' => 'nullable|integer',
         ]);
 
-        $product = Product::create([
-            'name'       => $request->name,
-            'detail'     => $request->detail,
-            'status'     => $request->status ?? 'active',
-            'created_by' => $request->created_by,
-        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => true, 'messages' => $validator->errors()], 422);
+        }
 
-        return response()->json($product, 201);
+        $product = Product::create($request->all());
+        return response()->json(['success' => true, 'data' => $product], 201);
     }
 
-    
+    // 4. Fetch product for editing
     public function editProduct($id)
     {
         $product = Product::find($id);
-
         if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
+            return response()->json(['error' => true, 'message' => 'Product not found'], 404);
         }
-
-        return response()->json($product, 200);
+        return response()->json($product);
     }
 
-    
+    // 5. Update product
     public function updateProduct(Request $request, $id)
     {
         $product = Product::find($id);
-
         if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
+            return response()->json(['error' => true, 'message' => 'Product not found'], 404);
         }
 
-        $request->validate([
-            'name'   => 'required|string|max:255',
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:255',
             'detail' => 'nullable|string',
-            'status' => 'nullable|in:active,inactive'
+            'status' => 'sometimes|required|string|max:50',
+            'updated_by' => 'nullable|integer',
         ]);
 
-        $product->update([
-            'name'       => $request->name,
-            'detail'     => $request->detail,
-            'status'     => $request->status ?? $product->status,
-            'updated_by' => $request->updated_by,
-        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => true, 'messages' => $validator->errors()], 422);
+        }
 
-        return response()->json($product, 200);
+        $product->update($request->all());
+        return response()->json(['success' => true, 'data' => $product]);
     }
 
-    
+    // 6. Soft delete product
     public function softDeleteProduct($id)
     {
         $product = Product::find($id);
-
         if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
+            return response()->json(['error' => true, 'message' => 'Product not found'], 404);
         }
 
         $product->delete();
-
-        return response()->json(['message' => 'Product deleted successfully'], 200);
+        return response()->json(['success' => true, 'message' => 'Product deleted successfully']);
     }
 }

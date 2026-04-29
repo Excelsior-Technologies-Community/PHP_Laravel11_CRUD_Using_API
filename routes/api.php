@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductApiController;
+use App\Http\Controllers\Api\CategoryApiController;
 use Faker\Guesser\Name;
 
 /*
@@ -34,3 +35,11 @@ Route::post('products/update/{id}', [ProductApiController::class, 'updateProduct
 
 // Soft delete product
 Route::post('products/delete/{id}', [ProductApiController::class, 'softDeleteProduct'])->name('products.delete');
+
+// Category routes
+Route::get('categories', [CategoryApiController::class, 'getAllCategories']);
+Route::get('categories/{id}', [CategoryApiController::class, 'getCategory']);
+Route::post('categories/add', [CategoryApiController::class, 'addCategory']);
+Route::get('categories/edit/{id}', [CategoryApiController::class, 'editCategory']);
+Route::post('categories/update/{id}', [CategoryApiController::class, 'updateCategory']);
+Route::post('categories/delete/{id}', [CategoryApiController::class, 'softDeleteCategory']);
